@@ -1,0 +1,41 @@
+{
+  "name": "json-tagged",
+  "version": "1.0.0",
+  "description": "Parser for tagged JSON data",
+  "main": "bin.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scott-morris/json-tagged.git"
+  },
+  "keywords": [
+    "json",
+    "tag",
+    "tagging",
+    "tagged",
+    "parsing"
+  ],
+  "author": "Scott Morris <scott.r.morris@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scott-morris/json-tagged/issues"
+  },
+  "homepage": "https://github.com/scott-morris/json-tagged#readme",
+  "dependencies": {
+    "commander": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!*.js"
+    ]
+  }
+}
