@@ -7,8 +7,8 @@ const shouldInclude = require("./should-include");
 
 const removeTags = ({ $tags, $value, ...rest }, options) =>
 	parse(
-	(($value !== void 0) ?
-		$value :
+		(($value !== void 0) ?
+			$value :
 			rest
 		),
 		options
@@ -43,6 +43,14 @@ const parseArray = (arr, options) =>
 
 // Public.
 
+/**
+ * Parse the tagged object with the given options.
+ * @param {Object|Array<*>} thing Item to be parsed
+ * @param {Object} options The options object
+ * @param {Array<String>} options.tags
+ * @param {Array<String>} options.exclude
+ * @returns {Object|Array}
+ */
 const parse = (thing, options) => {
 	// If the thing is not an object or array, return it as-is.
 	if (!isObject(thing) && !Array.isArray(thing)) {

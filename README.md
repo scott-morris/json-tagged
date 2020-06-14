@@ -7,13 +7,15 @@ Parser for tagged JSON data
 ### Parsing a tagged JSON file to find tags
 
 ```
-json-tag FILENAME -tags "foo,bar,baz"
+json-tag FILENAME -t "foo,bar,baz"
+json-tag FILENAME --tags "foo,bar,baz"
 ```
 
 ### Parsing a tagged JSON file to exclude tags
 
 ```
-json-tag FILENAME -exclude "foo,bar,baz"
+json-tag FILENAME -x "foo,bar,baz"
+json-tag FILENAME --exclude "foo,bar,baz"
 ```
 
 ## Tagged JSON Format
