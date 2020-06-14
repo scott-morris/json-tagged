@@ -125,13 +125,15 @@ describe("parse", () => {
 			describe("that are tagged", () => {
 				const input = [
 					{ $tags: ["active"], $value: "foo" },
-					{ $tags: ["inactive"], $value: ["bar", "baz"] },
-					{ $tags: ["active"], prop1: true }
+					{ $tags: ["active"], $value: ["bar", "baz"] },
+					{ $tags: ["active"], prop1: true },
+					{ $tags: ["inactive"], $value: 1 }
 				];
 
 				test("it should return all of the values in the array", () => {
 					expect(parse(input, settings)).toEqual([
 						"foo",
+						["bar", "baz"],
 						{ prop1: true }
 					]);
 				});
@@ -140,14 +142,94 @@ describe("parse", () => {
 		});
 	});
 
-	// TODO: fill in these tests
-	// describe("when provided complex objects and arrays", () => {
-	// 	describe("deep objects", () => {
+	describe("when provided complex objects and arrays", () => {
+		describe("deep objects", () => {
+			const input = {
+				foo: {
+					bar: {
+						$tags: ["test1", "test3"],
+						$value: "foo.bar"
+					},
+					baz: {
+						$tags: ["test2", "test3"],
+						$value: "foo.baz"
+					},
+					qux: "foo.qux"
+				}
+			};
 
-	// 	});
+			test("it should return the properties as mentioned above all the day down", () => {
+				expect(parse(input, { tags: ["test1"] })).toEqual({ foo: { bar: "foo.bar", qux: "foo.qux" } });
+				expect(parse(input, { tags: ["test2"] })).toEqual({ foo: { baz: "foo.baz", qux: "foo.qux" } });
+				expect(parse(input, { tags: ["test3"] })).toEqual({ foo: { bar: "foo.bar", baz: "foo.baz", qux: "foo.qux" } });
+				expect(parse(input, { tags: [] })).toEqual({ foo: { qux: "foo.qux" } });
+			});
+		});
 
-	// 	describe("nested objects and arrays", () => {
+		describe("nested objects and arrays", () => {
+			const input = {
+				users: [
+					{ 
+						$tags: ["lightSide"],
+						name: {
+							$tags: ["private"],
+							first: "Ben",
+							last: "Kenobi"
+						},
+						userName: "ObiWan",
+					},
+					{ 
+						$tags: ["lightSide"],
+						name: {
+							$tags: ["private"],
+							first: "Luke",
+							last: "Skywalker"
+						},
+						userName: "MasterLuke",
+					},
+					{
+						$tags: ["darkSide"],
+						name: {
+							$tags: ["private"],
+							first: "Anakin",
+							last: "Skywalker"
+						},
+						userName: "DarthVader",
+					},
+					{
+						$tags: ["darkSide"],
+						name: {
+							$tags: ["private"],
+							first: "Ben",
+							last: "Solo"
+						},
+						userName: "KyloRen",
+					}
+				]
+			};
 
-	// 	});
-	// });
+			test("it should return the properties as mentioned above all the day down", () => {
+				expect(parse(input, { tags: ["lightSide"] })).toEqual({
+					users: [
+						{ userName: "ObiWan" },
+						{ userName: "MasterLuke" }
+					]
+				});
+
+				expect(parse(input, { tags: ["lightSide", "private"] })).toEqual({
+					users: [
+						{ userName: "ObiWan", name: { first: "Ben", last: "Kenobi" } },
+						{ userName: "MasterLuke", name: { first: "Luke", last: "Skywalker" } }
+					]
+				});
+
+				expect(parse(input, { tags: ["darkSide"] })).toEqual({
+					users: [
+						{ userName: "DarthVader" },
+						{ userName: "KyloRen" }
+					]
+				});
+			});
+		});
+	});
 });

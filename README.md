@@ -40,7 +40,6 @@ json-tag FILENAME -exclude "foo,bar,baz"
 
 ## TODO:
 * Create the CLI to match signature above
-* Finish unit tests of tags within deeply nested objects / arrays
 * Test this out as a dependency
 * Publish to NPM
 * Add some options

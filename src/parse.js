@@ -5,14 +5,18 @@ const shouldInclude = require("./should-include");
 
 // Private.
 
-const removeTags = ({ $tags, $value, ...rest }) =>
+const removeTags = ({ $tags, $value, ...rest }, options) =>
+	parse(
 	(($value !== void 0) ?
 		$value :
-		rest);
+			rest
+		),
+		options
+	);
 
 const parseTaggedObject = (obj, options) =>
 	shouldInclude(obj, options) ?
-		removeTags(obj) :
+		removeTags(obj, options) :
 		void 0;
 
 const parseObject = (obj, options) =>
