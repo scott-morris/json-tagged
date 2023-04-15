@@ -23,9 +23,11 @@ json-tag FILENAME --exclude "foo,bar,baz"
 ### Objects
 ```
 {
-	$tags: ["active"],
-	name: "Take out the trash",
-	assignee: "Dad"
+	"$tags": ["active"],
+	"$value": { 
+		"name": "Take out the trash",
+	  "assignee": "Dad"
+  }
 }
 ```
 
@@ -46,4 +48,3 @@ json-tag FILENAME --exclude "foo,bar,baz"
 * Publish to NPM
 * Add some options
 ** Custom replacement of `$tag` and `$value` key names
-** Choose whether to keep the `$tag` property on objects

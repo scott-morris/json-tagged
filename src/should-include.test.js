@@ -1,121 +1,167 @@
 const shouldInclude = require("./should-include");
 
 describe("shouldInclude", () => {
-	test("is a function", () => {
-		expect(shouldInclude).toEqual(expect.any(Function));
-	});
+  test("is a function", () => {
+    expect(shouldInclude).toEqual(expect.any(Function));
+  });
 
-	describe("when called with a non-object", () => {
-		test("it should return true with undefined", () => {
-			expect(shouldInclude()).toEqual(true);
-		});
+  describe("when called with a non-object", () => {
+    test("it should return true with undefined", () => {
+      expect(shouldInclude()).toEqual(true);
+    });
 
-		test("it should return true with an integer", () => {
-			expect(shouldInclude(1)).toEqual(true);
-		});
+    test("it should return true with an integer", () => {
+      expect(shouldInclude(1)).toEqual(true);
+    });
 
-		test("it should return true with a number", () => {
-			expect(shouldInclude(1.1)).toEqual(true);
-		});
+    test("it should return true with a number", () => {
+      expect(shouldInclude(1.1)).toEqual(true);
+    });
 
-		test("it should return true with a boolean", () => {
-			expect(shouldInclude(false)).toEqual(true);
-		});
+    test("it should return true with a boolean", () => {
+      expect(shouldInclude(false)).toEqual(true);
+    });
 
-		test("it should return true with null", () => {
-			expect(shouldInclude(null)).toEqual(true);
-		});
+    test("it should return true with null", () => {
+      expect(shouldInclude(null)).toEqual(true);
+    });
 
-		test("it should return true with an array", () => {
-			expect(shouldInclude([])).toEqual(true);
-		});
+    test("it should return true with an array", () => {
+      expect(shouldInclude([])).toEqual(true);
+    });
 
-		test("it should return true with a string", () => {
-			expect(shouldInclude("foo")).toEqual(true);
-		});
-	});
+    test("it should return true with a string", () => {
+      expect(shouldInclude("foo")).toEqual(true);
+    });
+  });
 
-	describe("given called with an object", () => {
-		describe("when no options given", () => {
-			test("it should return true with a non-tagged object", () => {
-				expect(shouldInclude({ prop: "value" })).toEqual(true);
-			});
+  describe("given called with an object", () => {
+    describe("when no options given", () => {
+      test("it should return true with a non-tagged object", () => {
+        expect(shouldInclude({ prop: "value" })).toEqual(true);
+      });
 
-			test("it should return true with a tagged object", () => {
-				expect(shouldInclude({
-					$tags: ["to do"],
-					prop: "value"
-				})).toEqual(true);
-			});
-		});
+      test("it should return true with a tagged object", () => {
+        expect(
+          shouldInclude({
+            $tags: ["to do"],
+            prop: "value",
+          })
+        ).toEqual(true);
+      });
+    });
 
-		describe("when options are given", () => {
-			describe("when include tags are given", () => {
-				test("it should return true with a non-tagged object", () => {
-					expect(shouldInclude({ prop: "value" }, { tags: ["done"] })).toEqual(true);
-				});
+    describe("when options are given", () => {
+      describe("when include tags are given", () => {
+        test("it should return true with a non-tagged object", () => {
+          expect(shouldInclude({ prop: "value" }, { tags: ["done"] })).toEqual(
+            true
+          );
+        });
 
-				test("it should return false with a tagged object that doesn't have the included tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do"],
-						prop: "value"
-					}, { tags: ["done"] })).toEqual(false);
-				});
+        test("it should return false with a tagged object that doesn't have the included tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do"],
+                prop: "value",
+              },
+              { tags: ["done"] }
+            )
+          ).toEqual(false);
+        });
 
-				test("it should return true with a tagged object that includes the tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do"],
-						prop: "value"
-					}, { tags: ["to do"] })).toEqual(true);
-				});
-			});
+        test("it should return true with a tagged object that includes the tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do"],
+                prop: "value",
+              },
+              { tags: ["to do"] }
+            )
+          ).toEqual(true);
+        });
+      });
 
-			describe("when exclude tags are given", () => {
-				test("it should return true with a non-tagged object", () => {
-					expect(shouldInclude({ prop: "value" }, { exclude: ["done"] })).toEqual(true);
-				});
+      describe("when exclude tags are given", () => {
+        test("it should return true with a non-tagged object", () => {
+          expect(
+            shouldInclude({ prop: "value" }, { exclude: ["done"] })
+          ).toEqual(true);
+        });
 
-				test("it should return true with a tagged object that doesn't have the excluded tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do"],
-						prop: "value"
-					}, { exclude: ["done"] })).toEqual(true);
-				});
+        test("it should return true with a tagged object that doesn't have the excluded tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do"],
+                prop: "value",
+              },
+              { exclude: ["done"] }
+            )
+          ).toEqual(true);
+        });
 
-				test("it should return false with a tagged object that includes the excluded tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do"],
-						prop: "value"
-					}, { exclude: ["to do"] })).toEqual(false);
-				});
-			});
+        test("it should return false with a tagged object that includes the excluded tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do"],
+                prop: "value",
+              },
+              { exclude: ["to do"] }
+            )
+          ).toEqual(false);
+        });
+      });
 
-			describe("when include and exclude tags are given", () => {
-				test("it should return true with a non-tagged object", () => {
-					expect(shouldInclude({ prop: "value" }, { include: ["to do"], exclude: ["done"] })).toEqual(true);
-				});
+      describe("when include and exclude tags are given", () => {
+        test("it should return true with a non-tagged object", () => {
+          expect(
+            shouldInclude(
+              { prop: "value" },
+              { include: ["to do"], exclude: ["done"] }
+            )
+          ).toEqual(true);
+        });
 
-				test("it should return true with a tagged object that has an included tag and doesn't have the excluded tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do", "high priority"],
-						prop: "value"
-					}, { tags: ["to do"], exclude: ["low priority"] })).toEqual(true);
-				});
+        test("it should return true with a tagged object that has an included tag and doesn't have the excluded tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do", "high priority"],
+                prop: "value",
+              },
+              { tags: ["to do"], exclude: ["low priority"] }
+            )
+          ).toEqual(true);
+        });
 
-				test("it should return false with a tagged object that has an included tag and has an excluded tag", () => {
-					expect(shouldInclude({
-						$tags: ["to do", "low priority"],
-						prop: "value"
-					}, { tags: ["to do"], exclude: ["low priority"] })).toEqual(false);
-				});
+        test("it should return false with a tagged object that has an included tag and has an excluded tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["to do", "low priority"],
+                prop: "value",
+              },
+              { tags: ["to do"], exclude: ["low priority"] }
+            )
+          ).toEqual(false);
+        });
 
-				test("it should return false with a tagged object that has doesn't have an included tag and doesn't have an excluded tag", () => {
-					expect(shouldInclude({
-						$tags: ["in progress", "high priority"],
-						prop: "value"
-					}, { tags: ["to do"], exclude: ["done"] })).toEqual(false);
-				});
-			});
-		});
-	});
+        test("it should return false with a tagged object that has doesn't have an included tag and doesn't have an excluded tag", () => {
+          expect(
+            shouldInclude(
+              {
+                $tags: ["in progress", "high priority"],
+                prop: "value",
+              },
+              { tags: ["to do"], exclude: ["done"] }
+            )
+          ).toEqual(false);
+        });
+      });
+    });
+  });
 });

@@ -6,11 +6,10 @@
  * @param {Array<String>} arrSearchValues
  */
 const hasAnyOf = (arrSearchIn, arrSearchValues) => {
-	if (!Array.isArray(arrSearchIn) || !Array.isArray(arrSearchValues)) {
-		return false;
-	}
-
-	return arrSearchValues.some((value) => arrSearchIn.includes(value));
+  if (!Array.isArray(arrSearchIn) || !Array.isArray(arrSearchValues)) {
+    return false;
+  }
+  return arrSearchValues.some((value) => arrSearchIn.includes(value));
 };
 
 module.exports = hasAnyOf;

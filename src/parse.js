@@ -6,40 +6,32 @@ const shouldInclude = require("./should-include");
 // Private.
 
 const removeTags = ({ $tags, $value, ...rest }, options) =>
-	parse(
-		(($value !== void 0) ?
-			$value :
-			rest
-		),
-		options
-	);
+  parse($value !== void 0 ? $value : rest, options);
 
 const parseTaggedObject = (obj, options) =>
-	shouldInclude(obj, options) ?
-		removeTags(obj, options) :
-		void 0;
+  shouldInclude(obj, options) ? removeTags(obj, options) : void 0;
 
 const parseObject = (obj, options) =>
-	Object.keys(obj).reduce((result, key) => {
-		const value = parse(obj[key], options);
+  Object.keys(obj).reduce((result, key) => {
+    const value = parse(obj[key], options);
 
-		if (void 0 !== value) {
-			result[key] = value;
-		}
+    if (void 0 !== value) {
+      result[key] = value;
+    }
 
-		return result;
-	}, {});
+    return result;
+  }, {});
 
 const parseArray = (arr, options) =>
-	arr.reduce((result, value) => {
-		const parsed = parse(value, options);
+  arr.reduce((result, value) => {
+    const parsed = parse(value, options);
 
-		if (void 0 !== parsed) {
-			result.push(parsed);
-		}
+    if (void 0 !== parsed) {
+      result.push(parsed);
+    }
 
-		return result;
-	}, []);
+    return result;
+  }, []);
 
 // Public.
 
@@ -52,17 +44,17 @@ const parseArray = (arr, options) =>
  * @returns {Object|Array}
  */
 const parse = (thing, options) => {
-	// If the thing is not an object or array, return it as-is.
-	if (!isObject(thing) && !Array.isArray(thing)) {
-		return thing;
-	}
+  // If the thing is not an object or array, return it as-is.
+  if (!isObject(thing) && !Array.isArray(thing)) {
+    return thing;
+  }
 
-	// Parse based on whether the thing is an array or object.
-	return isTaggedObject(thing) ?
-		parseTaggedObject(thing, options) :
-		Array.isArray(thing) ?
-			parseArray(thing, options) :
-			parseObject(thing, options);
+  // Parse based on whether the thing is an array or object.
+  return isTaggedObject(thing)
+    ? parseTaggedObject(thing, options)
+    : Array.isArray(thing)
+    ? parseArray(thing, options)
+    : parseObject(thing, options);
 };
 
 module.exports = parse;
